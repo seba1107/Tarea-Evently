@@ -1,0 +1,22 @@
+import Link from "next/link";
+import { buttonVariants } from "./ui/button";
+import { ModeToggle } from "./theme-toggle-button";
+
+export function Navbar () {
+	return (
+		<nav className="flex justify-between items-center py-4 px-8">
+			<Link href="/events">
+				<h1 className="text-2xl font-bold">Tarea
+					<img src="https://www.evently.cl/logos/evently-logo-white.svg?c=CL" alt="Evently Logo" width="100" height="100" />
+				</h1>
+			</Link>
+
+			<div className="flex gap-x-2 items-center">
+				<Link href="/events" className= {buttonVariants({variant: "secondary"})}> Eventos </Link>
+				<Link href="/admin/events" className= {buttonVariants({variant: "secondary"})}> Nuevo Evento </Link>
+				<Link href="/admin/tickets" className= {buttonVariants({variant: "secondary"})}> Tickets </Link>
+				<ModeToggle />
+			</div>
+		</nav>
+	)
+}
