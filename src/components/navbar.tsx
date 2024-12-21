@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 import { ModeToggle } from "./theme-toggle-button";
+import Image from "next/image";
 
 export function Navbar () {
 	return (
 		<nav className="flex justify-between items-center py-4 px-8">
 			<Link href="/events">
-				<h1 className="text-2xl font-bold">Tarea
-					<img src="https://www.evently.cl/logos/evently-logo-white.svg?c=CL" alt="Evently Logo" width="100" height="100" />
+				<h1 className="text-2xl font-bold">Tarea Evently
 				</h1>
 			</Link>
 
