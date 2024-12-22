@@ -7,9 +7,12 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
 
 export default function EventsPage() {
   const [events, setEvents] = useState<EventInterface[]>([]);
+  const [filteredEvents, setFilteredEvents] = useState<EventInterface[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,6 +20,7 @@ export default function EventsPage() {
       try {
         const data = await getAllEvents();
         setEvents(data);
+        setFilteredEvents(data);
       } catch (error) {
         console.error("Error fetching events:", error);
       } finally {
@@ -27,7 +31,15 @@ export default function EventsPage() {
     fetchEvents();
   }, []);
 
-  if (loading){
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    const lowerQuery = query.toLowerCase();
+    setFilteredEvents(
+      events.filter((event) => event.title.toLowerCase().includes(lowerQuery))
+    );
+  };
+
+  if (loading) {
     return (
       <div className="p-8 flex flex-col space-y-4 max-w-3xl mx-auto">
         <h1 className="text-2xl font-bold mb-4 mx-auto">Eventos</h1>
@@ -56,9 +68,17 @@ export default function EventsPage() {
     <div className="p-8 flex flex-col space-y-4 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4 mx-auto">Eventos</h1>
 
-      {events.length > 0 ? (
+      <Input
+        type="text"
+        placeholder="Buscar por nombre..."
+        value={searchQuery}
+        onChange={(e) => handleSearch(e.target.value)}
+        className="p-2 border border-gray-300 rounded mb-4 w-full"
+      />
+
+      {filteredEvents.length > 0 ? (
         <div className="grid grid-cols-3 gap-4">
-          {events.map((event) => (
+          {filteredEvents.map((event) => (
             <Link key={event.id} href={`/events/${event.id}`}>
               <Card>
                 <CardHeader className="flex flex-row justify-between">
